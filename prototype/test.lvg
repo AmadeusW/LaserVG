@@ -1,0 +1,18 @@
+<svg height="297mm" id="svg8" version="1.1" viewBox="0 0 210 297" width="210mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <metadata id="metadata5">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>
+          image/svg+xml
+        </dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g id="layer1" fill="none" stroke="#000" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="1">
+    <path d="M0 0 l 10 20 l -1 0 l 10 20 l -1 0 l 10 20" id="myPath" stroke-width=".3"/>
+    <path d="M28 60 l 10 -20 l -1 0 l 10 -20 l -1 0 l 10 -20" id="myPath" stroke-width=".3"/>
+    <path d="M28 0 l 0 60" id="guide" stroke-width="3"/>
+  </g>
+</svg>

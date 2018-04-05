@@ -11,5 +11,8 @@
     "generator"
   ],
   "author": "Amadeusz Wieczorek",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^9.6.2"
+  }
 }

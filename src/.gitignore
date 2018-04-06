@@ -1,3 +1,6 @@
+# TS output
+build/
+
 # Logs
 logs
 *.log

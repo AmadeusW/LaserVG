@@ -9,7 +9,7 @@ export class SvgBuilder {
 
     save(fileName: string): void {
         this.addFooter()
-        let svg = this.body.join('/n')
+        let svg = this.body.join('\n')
         console.log(svg, fileName);
 
         fs.writeFile(fileName, svg, function(err) {

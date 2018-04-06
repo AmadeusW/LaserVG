@@ -1,5 +1,7 @@
 # TS output
 build/
+# sample output
+out/
 
 # Logs
 logs

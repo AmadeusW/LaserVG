@@ -2,6 +2,7 @@ import fs = require('fs');
 
 export class SvgBuilder {
     body: string[] = [];
+    indent: number = 0;
 
     constructor() {
         this.addHeader()
@@ -21,14 +22,21 @@ export class SvgBuilder {
     }
 
     raw(svg: string): void {
-        this.body.push(svg);
+        this.insert(svg);
     }
 
     private addHeader(): void {
-        this.body.push("header")
+        this.insert("header")
+        this.indent++
     }
 
     private addFooter(): void {
-        this.body.push("footer")
+        this.indent--
+        this.insert("footer")
+    }
+
+    // For proper indentation, this should be the only method that calls this.body.push
+    private insert(svg: string): void {
+        this.body.push('    '.repeat(this.indent) + svg)
     }
 }

@@ -1,8 +1,19 @@
 import fs = require('fs');
 
+export class Point {
+    x: number
+    y: number
+
+    constructor(x: number, y:number) {
+        this.x = x
+        this.y = y
+    }
+}
+
 export class SvgBuilder {
     body: string[] = [];
     indent: number = 0;
+    location: Point = new Point(0, 0)
 
     constructor() {
         this.addHeader()
@@ -23,6 +34,15 @@ export class SvgBuilder {
 
     raw(svg: string): void {
         this.insert(svg);
+    }
+
+    move(x: number, y: number): Point {
+        return move(new Point(x, y))
+    }
+
+    move(p: Point): Point {
+        location = p
+        return location;
     }
 
     private addHeader(): void {

@@ -1,17 +1,19 @@
-﻿namespace Deo.LaserVg.Parts
+﻿using System.Xml.Linq;
+
+namespace Deo.LaserVg.Parts
 {
     class Raw : IPart
     {
-        string Body { get; }
+        XElement Node { get; }
 
         internal Raw(string raw)
         {
-            Body = raw;
+            Node = XElement.Parse(raw);
         }
 
-        public object Serialize()
+        public XElement ToXml()
         {
-            return Body;
+            return Node;
         }
     }
 }

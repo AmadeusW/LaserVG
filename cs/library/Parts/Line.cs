@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Deo.LaserVg.Parts
 {
@@ -21,9 +22,11 @@ namespace Deo.LaserVg.Parts
             Segments.Add($"L {delta}");
         }
 
-        public object Serialize()
+        public XElement ToXml()
         {
-            return string.Join(' ', Segments);
+            var node = new XElement(XName.Get("line"),
+                "line", string.Join(' ', Segments));
+            return node;
         }
     }
 }

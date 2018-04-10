@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Deo.LaserVg.Parts
 {
@@ -18,12 +19,15 @@ namespace Deo.LaserVg.Parts
             Parts.Add(part);
         }
 
-        public object Serialize()
+        public XElement ToXml()
         {
-            // add beginning
-            // for all parts, serialize
-            // add ending
-            return null;
+            var group = new XElement("g");
+            foreach (var part in Parts)
+            {
+                var child = part.ToXml();
+                group.Add(child);
+            }
+            return group;
         }
     }
 }

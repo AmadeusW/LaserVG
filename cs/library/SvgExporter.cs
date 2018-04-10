@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Deo.LaserVg
 {
@@ -8,12 +10,13 @@ namespace Deo.LaserVg
     {
         internal static void Export(IEnumerable<IPart> parts, string outputPath)
         {
-            // Create thet XML elements
+            var document = new XDocument();
             foreach (var part in parts)
             {
-                part.Serialize();
+                document.Add(part.ToXml());
             }
-            //File.WriteAllText(outputPath, input.ToUpperInvariant());
+            var writer = XmlWriter.Create(outputPath);
+            document.WriteTo(writer);
         }
     }
 }

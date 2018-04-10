@@ -40,6 +40,7 @@ namespace Deo.LaserVg
         /// <param name="fileName"></param>
         public void Save(string fileName)
         {
+            TryFinishLine();
             SvgExporter.Export(Parts, fileName);
         }
 
@@ -49,12 +50,15 @@ namespace Deo.LaserVg
         /// <param name="svg">Markup to insert verbatim</param>
         public void Raw(string svg)
         {
+            TryFinishLine();
             Parts.Add(new Parts.Raw(svg));
         }
 
         public Point MoveTo(decimal x, decimal y) => MoveTo((x, y));
         public Point MoveTo((decimal x, decimal y) point)
         {
+            TryFinishLine();
+
             Location = point;
             return Location;
         }
@@ -62,6 +66,8 @@ namespace Deo.LaserVg
         public Point Move(decimal x, decimal y) => Move((x, y));
         public Point Move((decimal x, decimal y) delta)
         {
+            TryFinishLine();
+
             Location = (Location.X + delta.x, Location.Y + delta.y);
             return Location;
         }
@@ -69,8 +75,7 @@ namespace Deo.LaserVg
         public Point LineTo(decimal x, decimal y) => LineTo((x, y));
         public Point LineTo((decimal x, decimal y) point)
         {
-            if (LineBuilder == null)
-                LineBuilder = new Parts.Line(Location);
+            TryStartLine();
 
             var delta = point - Location;
             LineBuilder.AddSegment(delta);
@@ -82,12 +87,33 @@ namespace Deo.LaserVg
         public Point Line(decimal x, decimal y) => Line((x, y));
         public Point Line((decimal x, decimal y) delta)
         {
-            if (LineBuilder == null)
-                LineBuilder = new Parts.Line(Location);
+            TryStartLine();
 
             LineBuilder.AddSegment(delta);
             Location = (Location.X + delta.x, Location.Y + delta.y);
             return Location;
+        }
+
+        /// <summary>
+        /// Attempts to create a new line.
+        /// Does nothing if a line is already being built.
+        /// </summary>
+        private void TryStartLine()
+        {
+            if (LineBuilder == null)
+                LineBuilder = new Parts.Line(Location);
+        }
+
+        /// <summary>
+        /// Attempts to save the line that is being built.
+        /// Does nothing if no line is being built.
+        /// </summary>
+        private void TryFinishLine()
+        {
+            if (LineBuilder == null)
+                return;
+            Parts.Add(LineBuilder);
+            LineBuilder = null;
         }
     }
 }

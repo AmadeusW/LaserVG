@@ -6,7 +6,6 @@ namespace Deo.LaserVg
 {
     internal interface IPart
     {
-        string Id { get; }
         object Serialize();
     }
 }

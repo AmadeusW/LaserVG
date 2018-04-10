@@ -1,15 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Deo.LaserVg
 {
     class SvgExporter
     {
-        internal static void Export(Sketch sketch, string outputPath)
+        internal static void Export(IEnumerable<IPart> parts, string outputPath)
         {
-            foreach (var part in sketch.Parts)
+            // Create thet XML elements
+            foreach (var part in parts)
             {
-                var serialized = part.Serialize();
+                part.Serialize();
             }
             //File.WriteAllText(outputPath, input.ToUpperInvariant());
         }

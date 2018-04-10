@@ -28,5 +28,10 @@ namespace Deo.LaserVg.Parts
                 "line", string.Join(' ', Segments));
             return node;
         }
+
+        public override string ToString()
+        {
+            return string.Join(' ', Segments);
+        }
     }
 }

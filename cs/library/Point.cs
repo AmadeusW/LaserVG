@@ -1,6 +1,8 @@
-﻿namespace Deo.LaserVg
+﻿using System;
+
+namespace Deo.LaserVg
 {
-    public struct Point
+    public struct Point : IEquatable<Point>
     {
         public decimal X;
         public decimal Y;
@@ -15,6 +17,23 @@
         {
             X = x;
             Y = y;
+        }
+
+        public override string ToString()
+        {
+            return $"{X} {Y}";
+        }
+
+        bool IEquatable<Point>.Equals(Point other)
+        {
+            return this == other;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Point otherPoint)
+                return ((IEquatable<Point>)this).Equals(otherPoint);
+            return false;
         }
 
         public static implicit operator (decimal x, decimal y) (Point point)

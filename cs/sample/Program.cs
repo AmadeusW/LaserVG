@@ -18,7 +18,7 @@ namespace Deo.LaserVg.Sample
                 sketch.Line(treeHalfBase, -treeHeight);
                 sketch.Line(treeHalfBase, treeHeight);
             }
-            sketch.Save("trees.svg");
+            sketch.Save("../../../../../out/trees.svg");
         }
     }
 }

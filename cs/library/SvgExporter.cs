@@ -11,10 +11,12 @@ namespace Deo.LaserVg
         internal static void Export(IEnumerable<IPart> parts, string outputPath)
         {
             var document = new XDocument();
+            var root = new XElement("svg");
             foreach (var part in parts)
             {
-                document.Add(part.ToXml());
+                root.Add(part.ToXml());
             }
+            document.Add(root);
             var writer = XmlWriter.Create(outputPath);
             document.WriteTo(writer);
         }

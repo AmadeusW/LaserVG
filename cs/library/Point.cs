@@ -21,7 +21,7 @@ namespace Deo.LaserVg
 
         public override string ToString()
         {
-            return $"{X} {Y}";
+            return $"{X:0.####} {Y:0.####}";
         }
 
         bool IEquatable<Point>.Equals(Point other)

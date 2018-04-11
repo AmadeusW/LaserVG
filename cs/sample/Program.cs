@@ -20,7 +20,7 @@ namespace Deo.LaserVg.Sample
 
         static void Main(string[] args)
         {
-            var sketch = new Sketch() { Etching = false };
+            var sketch = new Sketch() { Etching = false, Width = 10, Height = 5 };
 
             for (int i = 0; i <= numTrees; i++) // less or equals because we want to draw a "half tree"
             {

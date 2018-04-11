@@ -36,21 +36,26 @@ namespace Deo.LaserVg
         public decimal Height { get; set; } = 0m;
 
         /// <summary>
+        /// Elements that will be exported
+        /// </summary>
+        internal IEnumerable<IPart> ExportedParts => parts;
+
+        /// <summary>
         /// Container of all parts known so far
         /// </summary>
-        private IList<IPart> Parts;
+        private IList<IPart> parts;
 
         /// <summary>
         /// Currently built path
         /// </summary>
-        private Parts.Path PathBuilder;
+        private Parts.Path pathBuilder;
 
         /// <summary>
         /// Create a new sketch. This instance builds up information about shapes to cut.
         /// </summary>
         public Sketch()
         {
-            Parts = new List<IPart>();
+            parts = new List<IPart>();
             Location = (0, 0);
         }
         
@@ -61,7 +66,7 @@ namespace Deo.LaserVg
         public void Save(string fileName)
         {
             TryFinishPath();
-            SvgExporter.Export(Parts, fileName);
+            SvgExporter.Export(this, fileName);
         }
 
         /// <summary>
@@ -71,7 +76,7 @@ namespace Deo.LaserVg
         public void Raw(string svg)
         {
             TryFinishPath();
-            Parts.Add(new Parts.Raw(svg));
+            parts.Add(new Parts.Raw(svg));
         }
 
         public Point MoveTo(decimal x, decimal y) => MoveTo((x, y));
@@ -98,7 +103,7 @@ namespace Deo.LaserVg
             TryStartPath();
 
             var delta = point - Location;
-            PathBuilder.AddLine(delta);
+            pathBuilder.AddLine(delta);
 
             Location = point;
             return Location;
@@ -109,7 +114,7 @@ namespace Deo.LaserVg
         {
             TryStartPath();
 
-            PathBuilder.AddLine(delta);
+            pathBuilder.AddLine(delta);
             Location = (Location.X + delta.x, Location.Y + delta.y);
             return Location;
         }
@@ -120,8 +125,8 @@ namespace Deo.LaserVg
         /// </summary>
         private void TryStartPath()
         {
-            if (PathBuilder == null)
-                PathBuilder = new Parts.Path(this);
+            if (pathBuilder == null)
+                pathBuilder = new Parts.Path(this);
         }
 
         /// <summary>
@@ -130,10 +135,10 @@ namespace Deo.LaserVg
         /// </summary>
         private void TryFinishPath()
         {
-            if (PathBuilder == null)
+            if (pathBuilder == null)
                 return;
-            Parts.Add(PathBuilder);
-            PathBuilder = null;
+            parts.Add(pathBuilder);
+            pathBuilder = null;
         }
     }
 }

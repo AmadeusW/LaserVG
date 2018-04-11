@@ -21,9 +21,9 @@ namespace Deo.LaserVg
         private IList<IPart> Parts;
 
         /// <summary>
-        /// Currently built line
+        /// Currently built path
         /// </summary>
-        private Parts.Line LineBuilder;
+        private Parts.Path PathBuilder;
 
         /// <summary>
         /// Create a new sketch. This instance builds up information about shapes to cut.
@@ -40,7 +40,7 @@ namespace Deo.LaserVg
         /// <param name="fileName"></param>
         public void Save(string fileName)
         {
-            TryFinishLine();
+            TryFinishPath();
             SvgExporter.Export(Parts, fileName);
         }
 
@@ -50,14 +50,14 @@ namespace Deo.LaserVg
         /// <param name="svg">Markup to insert verbatim</param>
         public void Raw(string svg)
         {
-            TryFinishLine();
+            TryFinishPath();
             Parts.Add(new Parts.Raw(svg));
         }
 
         public Point MoveTo(decimal x, decimal y) => MoveTo((x, y));
         public Point MoveTo((decimal x, decimal y) point)
         {
-            TryFinishLine();
+            TryFinishPath();
 
             Location = point;
             return Location;
@@ -66,7 +66,7 @@ namespace Deo.LaserVg
         public Point Move(decimal x, decimal y) => Move((x, y));
         public Point Move((decimal x, decimal y) delta)
         {
-            TryFinishLine();
+            TryFinishPath();
 
             Location = (Location.X + delta.x, Location.Y + delta.y);
             return Location;
@@ -75,10 +75,10 @@ namespace Deo.LaserVg
         public Point LineTo(decimal x, decimal y) => LineTo((x, y));
         public Point LineTo((decimal x, decimal y) point)
         {
-            TryStartLine();
+            TryStartPath();
 
             var delta = point - Location;
-            LineBuilder.AddSegment(delta);
+            PathBuilder.AddLine(delta);
 
             Location = point;
             return Location;
@@ -87,9 +87,9 @@ namespace Deo.LaserVg
         public Point Line(decimal x, decimal y) => Line((x, y));
         public Point Line((decimal x, decimal y) delta)
         {
-            TryStartLine();
+            TryStartPath();
 
-            LineBuilder.AddSegment(delta);
+            PathBuilder.AddLine(delta);
             Location = (Location.X + delta.x, Location.Y + delta.y);
             return Location;
         }
@@ -98,22 +98,22 @@ namespace Deo.LaserVg
         /// Attempts to create a new line.
         /// Does nothing if a line is already being built.
         /// </summary>
-        private void TryStartLine()
+        private void TryStartPath()
         {
-            if (LineBuilder == null)
-                LineBuilder = new Parts.Line(Location);
+            if (PathBuilder == null)
+                PathBuilder = new Parts.Path(Location);
         }
 
         /// <summary>
         /// Attempts to save the line that is being built.
         /// Does nothing if no line is being built.
         /// </summary>
-        private void TryFinishLine()
+        private void TryFinishPath()
         {
-            if (LineBuilder == null)
+            if (PathBuilder == null)
                 return;
-            Parts.Add(LineBuilder);
-            LineBuilder = null;
+            Parts.Add(PathBuilder);
+            PathBuilder = null;
         }
     }
 }

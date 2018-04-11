@@ -6,11 +6,13 @@ namespace Deo.LaserVg.Parts
     class Path : IPart
     {
         IList<string> Segments { get; }
+        decimal Stroke { get; }
 
-        internal Path(Point origin)
+        internal Path(Sketch sketch)
         {
             Segments = new List<string>();
-            Segments.Add($"M {origin}");
+            Segments.Add($"M {sketch.Location}");
+            Stroke = sketch.Etching ? sketch.StrokeWidthEtching : sketch.StrokeWidthCutting;
         }
 
         /// <summary>
@@ -25,6 +27,7 @@ namespace Deo.LaserVg.Parts
         public XElement ToXml()
         {
             var node = new XElement("path",
+                new XAttribute("stroke-width", Stroke),
                 string.Join(' ', Segments));
             return node;
         }

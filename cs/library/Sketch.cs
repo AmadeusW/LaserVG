@@ -11,9 +11,29 @@ namespace Deo.LaserVg
         public Point Location { get; private set; }
 
         /// <summary>
-        /// Whether laser is etching or cutting
+        /// Whether the laser is etching or cutting
         /// </summary>
         public bool Etching { get; set; }
+
+        /// <summary>
+        /// Stroke width for paths to be cut. Default is 0.001.
+        /// </summary>
+        public decimal StrokeWidthCutting { get; set; } = 0.001m;
+
+        /// <summary>
+        /// Stroke width for paths to be etched. Default is 0.1.
+        /// </summary>
+        public decimal StrokeWidthEtching { get; set; } = 0.1m;
+
+        /// <summary>
+        /// Width of the sketch. If 0, it won't be recorded in svg.
+        /// </summary>
+        public decimal Width { get; set; } = 0m;
+
+        /// <summary>
+        /// Height of the sketch. If 0, it won't be recorded in svg.
+        /// </summary>
+        public decimal Height { get; set; } = 0m;
 
         /// <summary>
         /// Container of all parts known so far
@@ -101,7 +121,7 @@ namespace Deo.LaserVg
         private void TryStartPath()
         {
             if (PathBuilder == null)
-                PathBuilder = new Parts.Path(Location);
+                PathBuilder = new Parts.Path(this);
         }
 
         /// <summary>

@@ -36,6 +36,11 @@ namespace Deo.LaserVg
         public decimal Height { get; set; } = 0m;
 
         /// <summary>
+        /// Multiplier for all coordinates
+        /// </summary>
+        public decimal Scale { get; set; } = 1m;
+
+        /// <summary>
         /// Elements that will be exported
         /// </summary>
         internal IEnumerable<IPart> ExportedParts => parts;
@@ -84,7 +89,7 @@ namespace Deo.LaserVg
         {
             TryFinishPath();
 
-            Location = point;
+            Location = (Point)point * Scale;
             return Location;
         }
 
@@ -93,7 +98,7 @@ namespace Deo.LaserVg
         {
             TryFinishPath();
 
-            Location = (Location.X + delta.x, Location.Y + delta.y);
+            Location = (Location.X + delta.x * Scale, Location.Y + delta.y * Scale);
             return Location;
         }
 
@@ -102,7 +107,7 @@ namespace Deo.LaserVg
         {
             TryStartPath();
 
-            var delta = point - Location;
+            var delta = (Point)point * Scale - Location;
             pathBuilder.AddLine(delta);
 
             Location = point;
@@ -115,7 +120,7 @@ namespace Deo.LaserVg
             TryStartPath();
 
             pathBuilder.AddLine(delta);
-            Location = (Location.X + delta.x, Location.Y + delta.y);
+            Location = (Location.X + delta.x * Scale, Location.Y + delta.y * Scale);
             return Location;
         }
 

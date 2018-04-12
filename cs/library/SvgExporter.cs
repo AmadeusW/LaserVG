@@ -35,8 +35,9 @@ namespace Deo.LaserVg
             var settings = new XmlWriterSettings()
             {
                 Indent = true,
+                NewLineOnAttributes = true,
                 IndentChars = "  ",
-                NewLineChars = "\n"
+                NewLineChars = "\n",
             };
             using (var writer = XmlWriter.Create(outputPath, settings))
             {

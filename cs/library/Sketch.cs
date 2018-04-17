@@ -93,6 +93,7 @@ namespace Deo.LaserVg
         public Point MoveTo((decimal x, decimal y) point)
         {
             TryFinishPath();
+            TryStartPath();
 
             Location = (Point)point * Scale;
             return Location;
@@ -102,8 +103,10 @@ namespace Deo.LaserVg
         public Point Move((decimal x, decimal y) delta)
         {
             TryFinishPath();
+            TryStartPath();
 
-            Location = (Location.X + delta.x * Scale, Location.Y + delta.y * Scale);
+            var scaled = (Point)delta * Scale;
+            Location = Location + delta;
             return Location;
         }
 
@@ -112,10 +115,10 @@ namespace Deo.LaserVg
         {
             TryStartPath();
 
-            var delta = (Point)point * Scale - Location;
-            pathBuilder.AddLine(delta);
+            var scaled = (Point)point * Scale;
+            pathBuilder.AddLineTo(scaled);
 
-            Location = point;
+            Location = scaled;
             return Location;
         }
 
@@ -124,8 +127,10 @@ namespace Deo.LaserVg
         {
             TryStartPath();
 
-            pathBuilder.AddLine(delta);
-            Location = (Location.X + delta.x * Scale, Location.Y + delta.y * Scale);
+            var scaled = (Point)delta * Scale;
+            pathBuilder.AddLine(scaled);
+
+            Location = Location + scaled;
             return Location;
         }
 

@@ -58,7 +58,7 @@ namespace Deo.LaserVg
 
         public static Point operator *(Point a, decimal scale)
         {
-            return (a.X * scale, a.Y - scale);
+            return (a.X * scale, a.Y * scale);
         }
 
         public static bool operator ==(Point a, Point b)

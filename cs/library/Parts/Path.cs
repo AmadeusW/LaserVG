@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Deo.LaserVg.Parts
@@ -16,12 +17,21 @@ namespace Deo.LaserVg.Parts
         }
 
         /// <summary>
-        /// Adds a straight line segment
+        /// Adds a straight line segment to a relative position
         /// </summary>
         /// <param name="delta"></param>
         internal void AddLine(Point delta)
         {
-            Segments.Add($"L {delta}");
+            Segments.Add($"l {delta}");
+        }
+
+        /// <summary>
+        /// Adds a straight line segment to an absolute position
+        /// </summary>
+        /// <param name="scaled"></param>
+        internal void AddLineTo(Point point)
+        {
+            Segments.Add($"L {point}");
         }
 
         public XElement ToXml()

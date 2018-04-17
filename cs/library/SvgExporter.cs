@@ -20,9 +20,9 @@ namespace Deo.LaserVg
                 //new XAttribute("xmlns", svgUrl), // this doesn't work
                 );
             if (sketch.Width != 0)
-                root.SetAttributeValue("width", sketch.Width);
+                root.SetAttributeValue("width", sketch.Width + sketch.Unit);
             if (sketch.Height != 0)
-                root.SetAttributeValue("height", sketch.Height);
+                root.SetAttributeValue("height", sketch.Height + sketch.Unit);
             document.Add(root);
 
             foreach (var part in sketch.ExportedParts)

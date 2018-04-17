@@ -36,6 +36,11 @@ namespace Deo.LaserVg
         public decimal Height { get; set; } = 0m;
 
         /// <summary>
+        /// Unit to use in conjunction with <see cref="Width"/> and <see cref="Height"/>
+        /// </summary>
+        public string Unit { get; set; } = string.Empty;
+
+        /// <summary>
         /// Multiplier for all coordinates
         /// </summary>
         public decimal Scale { get; set; } = 1m;
@@ -93,7 +98,7 @@ namespace Deo.LaserVg
             return Location;
         }
 
-        public Point Move(decimal x, decimal y) => Move((x, y));
+        public Point Move(decimal deltaX, decimal deltaY) => Move((deltaX, deltaY));
         public Point Move((decimal x, decimal y) delta)
         {
             TryFinishPath();
@@ -114,7 +119,7 @@ namespace Deo.LaserVg
             return Location;
         }
 
-        public Point Line(decimal x, decimal y) => Line((x, y));
+        public Point Line(decimal deltaX, decimal deltaY) => Line((deltaX, deltaY));
         public Point Line((decimal x, decimal y) delta)
         {
             TryStartPath();

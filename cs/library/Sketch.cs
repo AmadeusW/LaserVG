@@ -93,9 +93,10 @@ namespace Deo.LaserVg
         public Point MoveTo((decimal x, decimal y) point)
         {
             TryFinishPath();
-            TryStartPath();
 
             Location = (Point)point * Scale;
+
+            TryStartPath(); // TryStartPath uses the current value of Location
             return Location;
         }
 
@@ -103,10 +104,11 @@ namespace Deo.LaserVg
         public Point Move((decimal x, decimal y) delta)
         {
             TryFinishPath();
-            TryStartPath();
 
             var scaled = (Point)delta * Scale;
             Location = Location + delta;
+
+            TryStartPath(); // TryStartPath uses the current value of Location
             return Location;
         }
 

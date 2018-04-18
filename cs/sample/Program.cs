@@ -7,32 +7,42 @@ namespace Deo.LaserVg.Sample
         // Thickness of the wood
         const decimal thickness = 0.25m;
         // Extra distance for elements that may burn
-        const decimal burnMargin = 0.01m;
+        const decimal burnMargin = 0.01m;        
+        static decimal branchEffect = thickness/2;
 
-        // Basics
-        const int numTrees = 5;
-        const decimal treeHeight = 4.5m;
-        const decimal treeHalfBase = 2m;
-
-        // Cosmetics
-        static int treeSegments = 3;
-        static decimal branchEffect = thickness / treeSegments;
+        static Sketch sketch;
 
         static void Main(string[] args)
         {
-            var sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.1m, Unit="in" };
+            sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.05m, Unit="in" };
+
+            MakeTrees(treeWidth: 3m, treeHeight: 4.5m, numTrees: 5, treeSegments: 2);
+            sketch.Move(0, 10 * burnMargin);
+            MakeTrees(treeWidth: 3.5m, treeHeight: 5m, numTrees: 4, treeSegments: 3);
+            sketch.Move(0, 10 * burnMargin);
+            MakeTrees(treeWidth: 4m, treeHeight: 5.5m, numTrees: 4, treeSegments: 4);
+            sketch.Move(0, 10 * burnMargin);
+
+            sketch.Save("../../../../../out/trees.svg");
+        }
+
+        private static void MakeTrees(decimal treeWidth, decimal treeHeight, int numTrees, int treeSegments)
+        {
+            var treePartWidth = (treeWidth - thickness) / 2; // W of entire half of tree, without the W of trunk
+            var treeSlopeWidth = (treePartWidth + (treeSegments - 1) * branchEffect) / treeSegments;
 
             for (int i = 0; i <= numTrees; i++) // less or equals because we want to draw a "half tree"
             {
                 // rising edge
-                for (int s = 0; s < treeSegments; s++)
+                for (int s = 0; s < treeSegments - 1; s++)
                 {
-                    sketch.Line(treeHalfBase / treeSegments, treeHeight / treeSegments);
-                    if (s < treeSegments - 1) // don't do it on the last iteration
-                        sketch.Line(-branchEffect, 0);
+                    sketch.Line(treeSlopeWidth, treeHeight / treeSegments);
+                    sketch.Line(-branchEffect, 0);
                 }
+                // top segment of the rising edge
+                sketch.Line(treeSlopeWidth, treeHeight / treeSegments);
 
-                // the last tree is only one edge
+                // the last tree only has the rising edge
                 if (i == numTrees)
                     continue;
 
@@ -42,11 +52,13 @@ namespace Deo.LaserVg.Sample
                 sketch.Line(0, treeHeight / 2);
 
                 // falling edge
-                for (int s = 0; s < treeSegments; s++)
+                for (int s = 0; s < treeSegments - 1; s++)
                 {
-                    sketch.Line(treeHalfBase / treeSegments, -treeHeight / treeSegments);
+                    sketch.Line(treeSlopeWidth, -treeHeight / treeSegments);
                     sketch.Line(-branchEffect, 0);
                 }
+                // bottom segment of the falling edge
+                sketch.Line(treeSlopeWidth, -treeHeight / treeSegments);
 
                 // the other tree will have a flat peak
                 sketch.Line(thickness, 0);
@@ -57,7 +69,7 @@ namespace Deo.LaserVg.Sample
             // make a line back to origin
             for (int i = 0; i <= numTrees; i++)
             {
-                sketch.Line(-treeHalfBase, 0);
+                sketch.Line(-treePartWidth, 0);
 
                 // the last tree is only one half
                 if (i == numTrees)
@@ -65,17 +77,14 @@ namespace Deo.LaserVg.Sample
 
                 // notch for another tree
                 sketch.Line(0, -treeHeight / 2);
-                sketch.Line(thickness, 0);
+                sketch.Line(-thickness, 0);
                 sketch.Line(0, treeHeight / 2);
 
-                sketch.Line(-treeHalfBase, 0);
+                sketch.Line(-treePartWidth, 0);
 
                 // acommodate for peak of another tree
-                sketch.Line(-thickness, 0);
+                sketch.Move(-thickness, 0);
             }
-                
-
-            sketch.Save("../../../../../out/trees.svg");
         }
     }
 }

@@ -136,6 +136,11 @@ namespace Deo.LaserVg
             return Location;
         }
 
+        public void Text(string text, int fontSize, decimal dx, decimal dy)
+        {
+            parts.Add(new Parts.Text(text, fontSize, Location.X + dx, Location.Y + dy));
+        }
+
         /// <summary>
         /// Attempts to create a new line.
         /// Does nothing if a line is already being built.

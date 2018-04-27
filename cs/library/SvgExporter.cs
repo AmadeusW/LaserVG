@@ -23,6 +23,7 @@ namespace Deo.LaserVg
                 root.SetAttributeValue("width", sketch.Width + sketch.Unit);
             if (sketch.Height != 0)
                 root.SetAttributeValue("height", sketch.Height + sketch.Unit);
+            root.SetAttributeValue("viewBox", $"0 0 {sketch.Width} {sketch.Height}");
             document.Add(root);
 
             foreach (var part in sketch.ExportedParts)

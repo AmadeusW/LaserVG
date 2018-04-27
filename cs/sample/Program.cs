@@ -14,7 +14,49 @@ namespace Deo.LaserVg.Sample
 
         static void Main(string[] args)
         {
-            sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.05m, Unit="in" };
+            //MakeTreeSketch();
+            MakeRulerSketch();
+        }
+
+        private static void MakeRulerSketch()
+        {
+            sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.05m, Unit = "in" };
+
+            MakePart(0.5m, "1/2");
+            sketch.Move(0.01m, 0);
+            MakePart(0.5m + 1/32m, "1/2 + 1/32");
+            sketch.Move(0.01m, 0);
+            MakePart(0.5m + 1/16m, "1/2 + 1/16");
+            sketch.Move(0.01m, 0);
+            MakePart(0.5m + 1/8m, "1/2 + 1/8");
+            sketch.Move(0.01m, 0);
+            MakePart(0.5m + 1/4m, "1/2 + 1/4");
+            sketch.Move(0.01m, 0);
+            MakePart(1m, "1");
+            sketch.Move(0.01m, 0);
+
+            sketch.Save("../../../../../out/ruler.svg");
+        }
+
+        private static void MakePart(decimal width, string label)
+        {
+            sketch.Line(inch(width), 0);
+            sketch.Line(0, inch(0.5m));
+            sketch.Line(-inch(width), 0);
+            sketch.Line(0, -inch(0.5m));
+            sketch.Move(inch(width), 0);
+            sketch.Text(label, 10, 0.02m, 0.02m);
+
+            // Converts inch to milimeter
+            decimal inch(decimal desiredInches)
+            {
+                return desiredInches * 2.54m;
+            }
+        }
+
+        private static void MakeTreeSketch()
+        {
+            sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.05m, Unit = "in" };
 
             MakeTrees(treeWidth: 3m, treeHeight: 4.5m, numTrees: 5, treeSegments: 2);
             sketch.Move(0, 10 * burnMargin);

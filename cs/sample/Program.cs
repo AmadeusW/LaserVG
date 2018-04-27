@@ -7,7 +7,7 @@ namespace Deo.LaserVg.Sample
         // Thickness of the wood
         const decimal thickness = 0.25m;
         // Extra distance for elements that may burn
-        const decimal burnMargin = 0.01m;        
+        const decimal burnMargin = 0.01m;
         static decimal branchEffect = thickness/2;
 
         static Sketch sketch;
@@ -20,38 +20,52 @@ namespace Deo.LaserVg.Sample
 
         private static void MakeRulerSketch()
         {
-            sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.05m, Unit = "in" };
+            sketch = new Sketch() { Etching = false, Width = 4m, Height = 2m, StrokeWidthEtching = 0.05m, Unit = "in" };
 
-            MakePart(0.5m, "1/2");
+            MakeLabel("1/2");
+            MakePart(0.5m);
             sketch.Move(0.01m, 0);
-            MakePart(0.5m + 1/32m, "1/2 + 1/32");
+            MakeLabel("1/2+", "1/32");
+            MakePart(0.5m + 1/32m);
             sketch.Move(0.01m, 0);
-            MakePart(0.5m + 1/16m, "1/2 + 1/16");
+            MakeLabel("1/2+", "1/16");
+            MakePart(0.5m + 1/16m);
             sketch.Move(0.01m, 0);
-            MakePart(0.5m + 1/8m, "1/2 + 1/8");
+            MakeLabel("1/2+", "1/8");
+            MakePart(0.5m + 1/8m);
             sketch.Move(0.01m, 0);
-            MakePart(0.5m + 1/4m, "1/2 + 1/4");
+            MakeLabel("1/2+", "1/4");
+            MakePart(0.5m + 1/4m);
             sketch.Move(0.01m, 0);
-            MakePart(1m, "1");
+            MakeLabel("1 inch");
+            MakePart(1m);
             sketch.Move(0.01m, 0);
 
             sketch.Save("../../../../../out/ruler.svg");
         }
 
-        private static void MakePart(decimal width, string label)
+        private static void MakeLabel(params string[] labels)
         {
-            sketch.Line(inch(width), 0);
-            sketch.Line(0, inch(0.5m));
-            sketch.Line(-inch(width), 0);
-            sketch.Line(0, -inch(0.5m));
-            sketch.Move(inch(width), 0);
-            sketch.Text(label, 10, 0.02m, 0.02m);
+            var x = 0.02m;
+            var y = 20 / 96m;
+            var dy = 20 / 96m;
+            var fontSize = 16 / 96m;
 
-            // Converts inch to milimeter
-            decimal inch(decimal desiredInches)
+            foreach (var label in labels)
             {
-                return desiredInches * 2.54m;
+                sketch.Text(label, fontSize, x, y);
+                y += dy;
             }
+        }
+
+        private static void MakePart(decimal width)
+        {
+            
+            sketch.Line(width, 0);
+            sketch.Line(0, 0.5m);
+            sketch.Line(-width, 0);
+            sketch.Line(0, -0.5m);
+            sketch.Move(width, 0);
         }
 
         private static void MakeTreeSketch()

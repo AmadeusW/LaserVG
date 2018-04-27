@@ -68,7 +68,7 @@ namespace Deo.LaserVg
             parts = new List<IPart>();
             Location = (0, 0);
         }
-        
+
         /// <summary>
         /// Saves the sketch as SVG file.
         /// </summary>
@@ -106,7 +106,7 @@ namespace Deo.LaserVg
             TryFinishPath();
 
             var scaled = (Point)delta * Scale;
-            Location = Location + delta;
+            Location = Location + scaled;
 
             TryStartPath(); // TryStartPath uses the current value of Location
             return Location;
@@ -136,9 +136,9 @@ namespace Deo.LaserVg
             return Location;
         }
 
-        public void Text(string text, int fontSize, decimal dx, decimal dy)
+        public void Text(string text, decimal fontSize, decimal dx, decimal dy)
         {
-            parts.Add(new Parts.Text(text, fontSize, Location.X + dx, Location.Y + dy));
+            parts.Add(new Parts.Text(text, fontSize, Location.X + dx * Scale, Location.Y + dy * Scale));
         }
 
         /// <summary>

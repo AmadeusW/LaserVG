@@ -8,11 +8,11 @@ namespace Deo.LaserVg.Parts
     class Text : IPart
     {
         private string text;
-        private int fontSize;
+        private decimal fontSize;
         private decimal x;
         private decimal y;
 
-        public Text(string text, int fontSize, decimal x, decimal y)
+        public Text(string text, decimal fontSize, decimal x, decimal y)
         {
             this.text = text;
             this.fontSize = fontSize;

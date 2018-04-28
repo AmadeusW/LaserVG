@@ -36,6 +36,11 @@ namespace Deo.LaserVg
             return false;
         }
 
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
+        }
+
         public static implicit operator (decimal x, decimal y) (Point point)
         {
             return (point.X, point.Y);

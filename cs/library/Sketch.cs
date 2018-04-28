@@ -21,9 +21,9 @@ namespace Deo.LaserVg
         public decimal StrokeWidthCutting { get; set; } = 0.001m;
 
         /// <summary>
-        /// Stroke width for paths to be etched. Default is 0.1.
+        /// Stroke width for paths to be etched. Default is 0.05.
         /// </summary>
-        public decimal StrokeWidthEtching { get; set; } = 0.1m;
+        public decimal StrokeWidthEtching { get; set; } = 0.05m;
 
         /// <summary>
         /// Width of the sketch. If 0, it won't be recorded in svg.

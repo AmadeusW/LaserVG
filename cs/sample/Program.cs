@@ -20,26 +20,27 @@ namespace Deo.LaserVg.Sample
 
         private static void MakeRulerSketch()
         {
-            sketch = new Sketch() { Etching = false, Width = 4m, Height = 2m, StrokeWidthEtching = 0.05m, Unit = "in" };
+            sketch = new Sketch() { Width = 4.5m, Height = 0.5m, Unit = "in" };
+            var partDistance = 0.02m;
 
             MakeLabel("1/2");
-            MakePart(0.5m);
-            sketch.Move(0.01m, 0);
+            MakeRulerPart(0.5m);
+            sketch.Move(partDistance, 0);
             MakeLabel("1/2+", "1/32");
-            MakePart(0.5m + 1/32m);
-            sketch.Move(0.01m, 0);
+            MakeRulerPart(0.5m + 1/32m);
+            sketch.Move(partDistance, 0);
             MakeLabel("1/2+", "1/16");
-            MakePart(0.5m + 1/16m);
-            sketch.Move(0.01m, 0);
+            MakeRulerPart(0.5m + 1/16m);
+            sketch.Move(partDistance, 0);
             MakeLabel("1/2+", "1/8");
-            MakePart(0.5m + 1/8m);
-            sketch.Move(0.01m, 0);
+            MakeRulerPart(0.5m + 1/8m);
+            sketch.Move(partDistance, 0);
             MakeLabel("1/2+", "1/4");
-            MakePart(0.5m + 1/4m);
-            sketch.Move(0.01m, 0);
+            MakeRulerPart(0.5m + 1/4m);
+            sketch.Move(partDistance, 0);
             MakeLabel("1 inch");
-            MakePart(1m);
-            sketch.Move(0.01m, 0);
+            MakeRulerPart(1m);
+            sketch.Move(partDistance, 0);
 
             sketch.Save("../../../../../out/ruler.svg");
         }
@@ -58,9 +59,8 @@ namespace Deo.LaserVg.Sample
             }
         }
 
-        private static void MakePart(decimal width)
+        private static void MakeRulerPart(decimal width)
         {
-            
             sketch.Line(width, 0);
             sketch.Line(0, 0.5m);
             sketch.Line(-width, 0);

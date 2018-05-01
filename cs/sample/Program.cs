@@ -4,23 +4,19 @@ namespace Deo.LaserVg.Sample
 {
     class Program
     {
-        // Thickness of the wood
-        const decimal thickness = 0.25m;
-        // Extra distance for elements that may burn
-        const decimal burnMargin = 0.01m;
-        static decimal branchEffect = thickness/2;
-
         static Sketch sketch;
 
         static void Main(string[] args)
         {
-            //MakeTreeSketch();
-            MakeRulerSketch();
+            MakeTreeSketch();
+            //MakeRulerSketch();
         }
+
+        // === Ruler ===
 
         private static void MakeRulerSketch()
         {
-            sketch = new Sketch() { Width = 4.5m, Height = 0.5m, Unit = "in" };
+            sketch = new Sketch() { Etching = true, Width = 4.5m, Height = 0.5m, Unit = "in" };
             var partDistance = 0.02m;
 
             MakeLabel("1/2");
@@ -68,9 +64,17 @@ namespace Deo.LaserVg.Sample
             sketch.Move(width, 0);
         }
 
+        // === Trees ===
+
+        // Thickness of the wood
+        const decimal thickness = 0.25m;
+        // Extra distance for elements that may burn
+        const decimal burnMargin = 0.01m;
+        static decimal branchEffect = thickness / 2;
+
         private static void MakeTreeSketch()
         {
-            sketch = new Sketch() { Etching = true, Width = 1m, Height = 0.5m, StrokeWidthEtching = 0.05m, Unit = "in" };
+            sketch = new Sketch() { Etching = true, Width = 18m, Height = 16m, Unit = "in" };
 
             MakeTrees(treeWidth: 3m, treeHeight: 4.5m, numTrees: 5, treeSegments: 2);
             sketch.Move(0, 10 * burnMargin);
@@ -117,12 +121,19 @@ namespace Deo.LaserVg.Sample
                 sketch.Line(treeSlopeWidth, -treeHeight / treeSegments);
 
                 // the other tree will have a flat peak
-                sketch.Line(thickness, 0);
+                //sketch.Line(thickness, 0);
+                // do not draw the flat peak of the other tree.
+                // it will be drawn as a single line for all trees at the end
+                // instead, just jump to the next tree
+                sketch.Move(thickness, 0);
             }
+
+            var endLocation = sketch.Location;
 
             // make a little offset
             sketch.Move(0, burnMargin);
-            // make a line back to origin
+
+            // make the bottoms of the trees
             for (int i = 0; i <= numTrees; i++)
             {
                 sketch.Line(-treePartWidth, 0);
@@ -141,6 +152,11 @@ namespace Deo.LaserVg.Sample
                 // acommodate for peak of another tree
                 sketch.Move(-thickness, 0);
             }
+
+            // Make a flat horizontal line over all trees
+            sketch.Move(0, -burnMargin -treeHeight);
+            sketch.Line(endLocation.X -treePartWidth, 0);
+            sketch.Move(-endLocation.X +treePartWidth, +burnMargin + treeHeight);
         }
     }
 }

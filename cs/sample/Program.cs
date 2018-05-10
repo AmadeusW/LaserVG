@@ -69,18 +69,25 @@ namespace Deo.LaserVg.Sample
         // Thickness of the wood
         const decimal thickness = 0.25m;
         // Extra distance for elements that may burn
-        const decimal burnMargin = 0.01m;
+        const decimal burnMargin = 0.02m;
         static decimal branchEffect = thickness / 2;
 
         private static void MakeTreeSketch()
         {
-            sketch = new Sketch() { Etching = true, Width = 18m, Height = 16m, Unit = "in" };
+            sketch = new Sketch() { Etching = true, Width = 24m, Height = 10.5m, Unit = "in" };
 
-            MakeTrees(treeWidth: 3m, treeHeight: 4.5m, numTrees: 5, treeSegments: 2);
+            // Large
+            MakeTrees(treeWidth: 4m, treeHeight: 5.5m, numTrees: 3, treeSegments: 4);
             sketch.Move(0, 10 * burnMargin);
-            MakeTrees(treeWidth: 3.5m, treeHeight: 5m, numTrees: 4, treeSegments: 3);
+
+            // Small
+            MakeTrees(treeWidth: 3m, treeHeight: 4.5m, numTrees: 4, treeSegments: 2);
             sketch.Move(0, 10 * burnMargin);
-            MakeTrees(treeWidth: 4m, treeHeight: 5.5m, numTrees: 4, treeSegments: 4);
+
+            // Two rows of medium
+            MakeTrees(treeWidth: 3.5m, treeHeight: 5m, numTrees: 2, treeSegments: 3);
+            sketch.Move(0, 10 * burnMargin);
+            MakeTrees(treeWidth: 3.5m, treeHeight: 5m, numTrees: 2, treeSegments: 3);
             sketch.Move(0, 10 * burnMargin);
 
             sketch.Save("../../../../../out/trees.svg");
@@ -90,6 +97,8 @@ namespace Deo.LaserVg.Sample
         {
             var treePartWidth = (treeWidth - thickness) / 2; // W of entire half of tree, without the W of trunk
             var treeSlopeWidth = (treePartWidth + (treeSegments - 1) * branchEffect) / treeSegments;
+
+            sketch.StartGroup($"TreesWith{treeSegments}Segments");
 
             for (int i = 0; i <= numTrees; i++) // less or equals because we want to draw a "half tree"
             {
@@ -157,6 +166,8 @@ namespace Deo.LaserVg.Sample
             sketch.Move(0, -burnMargin -treeHeight);
             sketch.Line(endLocation.X -treePartWidth, 0);
             sketch.Move(-endLocation.X +treePartWidth, +burnMargin + treeHeight);
+
+            sketch.EndGroup();
         }
     }
 }

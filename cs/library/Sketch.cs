@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Deo.LaserVg
 {
-    public class Sketch
+    public class Sketch : IPartOwner
     {
         /// <summary>
         /// Current location of the laser when drawing lines
@@ -61,11 +61,29 @@ namespace Deo.LaserVg
         private Parts.Path pathBuilder;
 
         /// <summary>
+        /// Stores groups we're currently in. Group on top of the stack receives new items.
+        /// </summary>
+        private Stack<IPartOwner> groups;
+
+        /// <summary>
+        /// Gets the <see cref="IPartOwner"/> that will receive new items:
+        /// The most nested group, or the SVG root.
+        /// </summary>
+        private IPartOwner CurrentPartOwner
+        {
+            get
+            {
+                return groups.Count > 0 ? groups.Peek() : this;
+            }
+        }
+
+        /// <summary>
         /// Create a new sketch. This instance builds up information about shapes to cut.
         /// </summary>
         public Sketch()
         {
             parts = new List<IPart>();
+            groups = new Stack<IPartOwner>();
             Location = (0, 0);
         }
 
@@ -86,7 +104,19 @@ namespace Deo.LaserVg
         public void Raw(string svg)
         {
             TryFinishPath();
-            parts.Add(new Parts.Raw(svg));
+            CurrentPartOwner.Add(new Parts.Raw(svg));
+        }
+
+        public void StartGroup(string name)
+        {
+            var newGroup = new Parts.Group(name);
+            CurrentPartOwner.Add(newGroup);
+            groups.Push(newGroup);
+        }
+
+        public void EndGroup()
+        {
+            groups.Pop();
         }
 
         public Point MoveTo(decimal x, decimal y) => MoveTo((x, y));
@@ -138,7 +168,7 @@ namespace Deo.LaserVg
 
         public void Text(string text, decimal fontSize, decimal dx, decimal dy)
         {
-            parts.Add(new Parts.Text(text, fontSize, Location.X + dx * Scale, Location.Y + dy * Scale));
+            CurrentPartOwner.Add(new Parts.Text(text, fontSize, Location.X + dx * Scale, Location.Y + dy * Scale));
         }
 
         /// <summary>
@@ -159,8 +189,18 @@ namespace Deo.LaserVg
         {
             if (pathBuilder == null)
                 return;
-            parts.Add(pathBuilder);
+            CurrentPartOwner.Add(pathBuilder);
             pathBuilder = null;
+        }
+
+        /// <summary>
+        /// Adds new part to the collection of parts.
+        /// This should be the only way <see cref="parts"/> is mutated.
+        /// </summary>
+        /// <param name="part"></param>
+        void IPartOwner.Add(IPart part)
+        {
+            parts.Add(part);
         }
     }
 }

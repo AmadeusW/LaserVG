@@ -3,18 +3,18 @@ using System.Xml.Linq;
 
 namespace Deo.LaserVg.Parts
 {
-    class Group : IPart
+    class Group : IPart, IPartOwner
     {
         IList<IPart> Parts { get; }
-        string Name { get; }
+        string Title { get; }
 
-        internal Group(string name)
+        internal Group(string title)
         {
             Parts = new List<IPart>();
-            Name = name;
+            Title = title;
         }
 
-        internal void Add(IPart part)
+        void IPartOwner.Add(IPart part)
         {
             Parts.Add(part);
         }
@@ -22,6 +22,10 @@ namespace Deo.LaserVg.Parts
         public XElement ToXml()
         {
             var group = new XElement("g");
+
+            if (!string.IsNullOrWhiteSpace(Title))
+                group.Add(new XElement("title", Title));
+
             foreach (var part in Parts)
             {
                 var child = part.ToXml();

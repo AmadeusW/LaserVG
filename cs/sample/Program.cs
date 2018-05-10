@@ -76,12 +76,12 @@ namespace Deo.LaserVg.Sample
         {
             sketch = new Sketch() { Etching = true, Width = 24m, Height = 10.5m, Unit = "in" };
 
-            // Large
-            MakeTrees(treeWidth: 4m, treeHeight: 5.5m, numTrees: 3, treeSegments: 4);
-            sketch.Move(0, 10 * burnMargin);
-
             // Small
             MakeTrees(treeWidth: 3m, treeHeight: 4.5m, numTrees: 4, treeSegments: 2);
+            sketch.Move(0, 10 * burnMargin);
+
+            // Large
+            MakeTrees(treeWidth: 4m, treeHeight: 5.5m, numTrees: 3, treeSegments: 4);
             sketch.Move(0, 10 * burnMargin);
 
             // Two rows of medium
@@ -143,13 +143,9 @@ namespace Deo.LaserVg.Sample
             sketch.Move(0, burnMargin);
 
             // make the bottoms of the trees
-            for (int i = 0; i <= numTrees; i++)
+            for (int i = 0; i < numTrees; i++)
             {
                 sketch.Line(-treePartWidth, 0);
-
-                // the last tree is only one half
-                if (i == numTrees)
-                    continue;
 
                 // notch for another tree
                 sketch.Line(0, -treeHeight / 2);
@@ -163,7 +159,7 @@ namespace Deo.LaserVg.Sample
             }
 
             // Make a flat horizontal line over all trees
-            sketch.Move(0, -burnMargin -treeHeight);
+            sketch.Move(-treePartWidth, -burnMargin -treeHeight);
             sketch.Line(endLocation.X -treePartWidth, 0);
             sketch.Move(-endLocation.X +treePartWidth, +burnMargin + treeHeight);
 

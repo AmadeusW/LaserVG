@@ -67,7 +67,7 @@ namespace Deo.LaserVg.Sample
         // === Trees ===
 
         // Thickness of the wood
-        const decimal thickness = 0.25m;
+        const decimal thickness = 0.125m;
         // Extra distance for elements that may burn
         const decimal burnMargin = 0.02m;
         static decimal branchEffect = thickness / 2;

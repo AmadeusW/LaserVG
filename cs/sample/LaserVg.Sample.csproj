@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>LaserVg.Sample</AssemblyName>
     <DefaultNamespace>Deo.LaserVg.Sample</DefaultNamespace>
+    <RootNamespace>Deo.LaserVg.Sample</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

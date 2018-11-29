@@ -35,6 +35,8 @@ namespace Deo.LaserVg
 
             Console.WriteLine("Saving...");
 
+            EnsureDirectoryExists(outputPath);
+
             var settings = new XmlWriterSettings()
             {
                 Indent = true,
@@ -48,6 +50,13 @@ namespace Deo.LaserVg
             }
 
             Console.WriteLine("Done.");
+        }
+
+        private static void EnsureDirectoryExists(string outputPath)
+        {
+            var directoryName = Path.GetDirectoryName(outputPath);
+            if (!Directory.Exists(directoryName))
+                Directory.CreateDirectory(directoryName);
         }
     }
 }

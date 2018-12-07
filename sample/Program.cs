@@ -11,6 +11,7 @@ namespace Deo.LaserVg.Sample
             new RulerSketch().Make(Path.Combine(outDir, "ruler.svg"));
             new TreeSketch().Make(Path.Combine(outDir, "trees.svg"));
             new MoireSketch().Make(Path.Combine(outDir, "moire.svg"));
+            new Schotter().Make(Path.Combine(outDir, "schotter.svg"));
         }
     }
 }

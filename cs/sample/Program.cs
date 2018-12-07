@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Deo.LaserVg.Sample
 {
@@ -6,8 +7,10 @@ namespace Deo.LaserVg.Sample
     {
         static void Main(string[] args)
         {
-            new RulerSketch().Make(@"../../../../../out/ruler.svg");
-            new TreeSketch().Make(@"../../../../../out/trees.svg");
+            var outDir = @"../../../../out";
+            new RulerSketch().Make(Path.Combine(outDir, "ruler.svg"));
+            new TreeSketch().Make(Path.Combine(outDir, "trees.svg"));
+            new MoireSketch().Make(Path.Combine(outDir, "moire.svg"));
         }
     }
 }

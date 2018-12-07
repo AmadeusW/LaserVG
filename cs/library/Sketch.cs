@@ -107,6 +107,10 @@ namespace Deo.LaserVg
             CurrentPartOwner.Add(new Parts.Raw(svg));
         }
 
+        /// <summary>
+        /// Creates a group. Subsequent elements will be added to this group until <see cref="EndGroup"/> is called.
+        /// </summary>
+        /// <param name="name"></param>
         public void StartGroup(string name)
         {
             var newGroup = new Parts.Group(name);
@@ -114,12 +118,24 @@ namespace Deo.LaserVg
             groups.Push(newGroup);
         }
 
+        /// <summary>
+        /// Closes a group.
+        /// </summary>
         public void EndGroup()
         {
             groups.Pop();
         }
 
+        /// <summary>
+        /// Moves the cursor to a target position
+        /// </summary>
+        /// <returns>New cursor position</returns>
         public Point MoveTo(decimal x, decimal y) => MoveTo((x, y));
+
+        /// <summary>
+        /// Moves the cursor to a target position
+        /// </summary>
+        /// <returns>New cursor position</returns>
         public Point MoveTo((decimal x, decimal y) point)
         {
             TryFinishPath();
@@ -130,7 +146,19 @@ namespace Deo.LaserVg
             return Location;
         }
 
+        /// <summary>
+        /// Moves the cursor a specific distance
+        /// </summary>
+        /// <param name="deltaX">X displacement from the current cursor position</param>
+        /// <param name="deltaY">Y displacement from the current cursor position</param>
+        /// <returns>New cursor position</returns>
         public Point Move(decimal deltaX, decimal deltaY) => Move((deltaX, deltaY));
+
+        /// <summary>
+        /// Moves the cursor a specific distance
+        /// </summary>
+        /// <param name="delta">Displacement</param>
+        /// <returns>New cursor position</returns>
         public Point Move((decimal x, decimal y) delta)
         {
             TryFinishPath();
@@ -142,7 +170,21 @@ namespace Deo.LaserVg
             return Location;
         }
 
+        /// <summary>
+        /// Draws a straight line from the current cursor position to a target position.
+        /// Moves the cursor position to the target position.
+        /// </summary>
+        /// <param name="x">X coordinate of the target position</param>
+        /// <param name="y">Y coordinate of the target position</param>
+        /// <returns>New cursor position</returns>
         public Point LineTo(decimal x, decimal y) => LineTo((x, y));
+
+        /// <summary>
+        /// Draws a straight line from the current cursor position to a target position.
+        /// Moves the cursor position to the target position.
+        /// </summary>
+        /// <param name="point">Coordinates of the target position</param>
+        /// <returns>New cursor position</returns>
         public Point LineTo((decimal x, decimal y) point)
         {
             TryStartPath();
@@ -154,7 +196,21 @@ namespace Deo.LaserVg
             return Location;
         }
 
+        /// <summary>
+        /// Draws a straight line from the current cursor position to a position relative to the current cursor position.
+        /// Moves the cursor position to the tip of the line.
+        /// </summary>
+        /// <param name="deltaX">X displacement from the current cursor position</param>
+        /// <param name="deltaY">Y displacement from the current cursor position</param>
+        /// <returns>New cursor position</returns>
         public Point Line(decimal deltaX, decimal deltaY) => Line((deltaX, deltaY));
+
+        /// <summary>
+        /// Draws a straight line from the current cursor position to a position relative to the current cursor position.
+        /// Moves the cursor position to the tip of the line.
+        /// </summary>
+        /// <param name="delta">Displacement</param>
+        /// <returns>New cursor position</returns>
         public Point Line((decimal x, decimal y) delta)
         {
             TryStartPath();
@@ -166,9 +222,16 @@ namespace Deo.LaserVg
             return Location;
         }
 
-        public void Text(string text, decimal fontSize, decimal dx, decimal dy)
+        /// <summary>
+        /// Renders text at a current cursor position, displaced by <paramref name="deltaX"/> and <paramref name="deltaY"/>.
+        /// </summary>
+        /// <param name="text">Text content</param>
+        /// <param name="fontSize">Font size</param>
+        /// <param name="deltaX">X displacement from the current cursor position</param>
+        /// <param name="deltaY">Y displacement from the current cursor position</param>
+        public void Text(string text, decimal fontSize, decimal deltaX, decimal deltaY)
         {
-            CurrentPartOwner.Add(new Parts.Text(text, fontSize, Location.X + dx * Scale, Location.Y + dy * Scale));
+            CurrentPartOwner.Add(new Parts.Text(text, fontSize, Location.X + deltaX * Scale, Location.Y + deltaY * Scale));
         }
 
         /// <summary>

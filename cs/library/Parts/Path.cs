@@ -17,18 +17,18 @@ namespace Deo.LaserVg.Parts
         }
 
         /// <summary>
-        /// Adds a straight line segment to a relative position
+        /// Adds a straight line segment to a position relative to the current cursor position.
         /// </summary>
-        /// <param name="delta"></param>
+        /// <param name="delta">Displacement</param>
         internal void AddLine(Point delta)
         {
             Segments.Add($"l {delta}");
         }
 
         /// <summary>
-        /// Adds a straight line segment to an absolute position
+        /// Adds a straight line segment from the current cursor position to a target position.
         /// </summary>
-        /// <param name="scaled"></param>
+        /// <param name="scaled">Target position</param>
         internal void AddLineTo(Point point)
         {
             Segments.Add($"L {point}");

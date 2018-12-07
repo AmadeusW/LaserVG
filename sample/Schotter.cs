@@ -19,7 +19,7 @@ namespace Deo.LaserVg.Sample
             sketch = new Sketch() { Etching = true, Width = Width+2*Edge, Height = Height+2*Edge, Unit = "in" };
             random = new Random();
 
-            sketch.StartGroup("Schotter", $"translate({Edge}, {Edge})"); // this group adds margin
+            sketch.StartGroup(transform: $"translate({Edge}, {Edge})"); // this group adds margin
             for (int row = 0; row < Height; row++)
                 for (int col = 0; col < Width; col++)
                     MakeSquare(row, col);
@@ -36,7 +36,7 @@ namespace Deo.LaserVg.Sample
             var dx = (decimal)(RandomInExponentialRange(row) * TranslationFactor);
             var dy = (decimal)(RandomInExponentialRange(row) * TranslationFactor);
 
-            sketch.StartGroup(string.Empty, $"rotate({rotation} {col * Edge + Edge / 2} {row * Edge + Edge / 2}) translate({col * Edge + dx} {row * Edge + dy})");
+            sketch.StartGroup(transform: $"rotate({rotation} {col * Edge + Edge / 2} {row * Edge + Edge / 2}) translate({col * Edge + dx} {row * Edge + dy})");
             sketch.MoveTo(0, 0);
             sketch.Line(Edge, 0);
             sketch.Line(0, Edge);

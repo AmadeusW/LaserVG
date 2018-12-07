@@ -9,7 +9,7 @@ namespace Deo.LaserVg.Parts
         string Title { get; }
         string TransformRaw { get; }
 
-        internal Group(string title, string transform = null)
+        internal Group(string title = null, string transform = null)
         {
             Parts = new List<IPart>();
             Title = title;

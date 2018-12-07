@@ -111,9 +111,9 @@ namespace Deo.LaserVg
         /// Creates a group. Subsequent elements will be added to this group until <see cref="EndGroup"/> is called.
         /// </summary>
         /// <param name="name"></param>
-        public void StartGroup(string name)
+        public void StartGroup(string name, string transform = null)
         {
-            var newGroup = new Parts.Group(name);
+            var newGroup = new Parts.Group(name, transform);
             CurrentPartOwner.Add(newGroup);
             groups.Push(newGroup);
         }
@@ -123,6 +123,7 @@ namespace Deo.LaserVg
         /// </summary>
         public void EndGroup()
         {
+            TryFinishPath();
             groups.Pop();
         }
 

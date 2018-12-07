@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.2.0</Version>
     <AssemblyName>LaserVg.Library</AssemblyName>
     <DefaultNamespace>Deo.LaserVg</DefaultNamespace>
     <RootNamespace>Deo.LaserVg</RootNamespace>

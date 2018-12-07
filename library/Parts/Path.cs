@@ -38,7 +38,7 @@ namespace Deo.LaserVg.Parts
         {
             var node = new XElement("path",
                 new XAttribute("stroke-width", Stroke),
-                new XAttribute("d", string.Join(' ', Segments)),
+                new XAttribute("d", string.Join(" ", Segments)),
                 new XAttribute("fill", "none"),
                 new XAttribute("stroke", "#000")
             );
@@ -47,7 +47,7 @@ namespace Deo.LaserVg.Parts
 
         public override string ToString()
         {
-            return string.Join(' ', Segments);
+            return string.Join(" ", Segments);
         }
     }
 }

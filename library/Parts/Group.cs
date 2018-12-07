@@ -7,11 +7,13 @@ namespace Deo.LaserVg.Parts
     {
         IList<IPart> Parts { get; }
         string Title { get; }
+        string TransformRaw { get; }
 
-        internal Group(string title)
+        internal Group(string title, string transform = null)
         {
             Parts = new List<IPart>();
             Title = title;
+            TransformRaw = transform;
         }
 
         void IPartOwner.Add(IPart part)
@@ -25,6 +27,9 @@ namespace Deo.LaserVg.Parts
 
             if (!string.IsNullOrWhiteSpace(Title))
                 group.Add(new XElement("title", Title));
+
+            if (!string.IsNullOrWhiteSpace(TransformRaw))
+                group.Add(new XAttribute("transform", TransformRaw));
 
             foreach (var part in Parts)
             {

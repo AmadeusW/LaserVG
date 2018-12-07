@@ -1,8 +1,14 @@
 # LaserVG
 Programmatically create SVG files for laser cutting
 
-
 ![sample](https://user-images.githubusercontent.com/1673956/49623969-9bd18900-f984-11e8-9416-558a035fa7aa.png)
+
+## Why?
+In the picture above, I produce three wooden trees made of two parts that fold on each other. The width of the incision in the middle of the tree must be precisely the same as wood thickness.
+
+Depending on the wood I get a hold of, I must change the width of the incision without resizing the trees. Conversely, I may want to change shape of the trees while keeping the incision size fixed.
+
+Typical SVG authoring tools like Illustrator or Inkscape are not capable of tweaking various design parameters. Resizing uniformly affects all aspects of the design. **LaserVG** is a design library which helps hobbyist to procedurally generate shapes and export them as SVG files.
 
 ## To get started
 

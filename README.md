@@ -4,25 +4,30 @@ Programmatically create SVG files for laser cutting
 ![sample](https://user-images.githubusercontent.com/1673956/49623969-9bd18900-f984-11e8-9416-558a035fa7aa.png)
 
 ## Why?
-In the picture above, I produce three wooden trees made of two parts that fold on each other. The width of the incision in the middle of the tree must be precisely the same as wood thickness.
+In the picture above, I produce three wooden trees made of two parts that fold on each other. The width of the incision in the middle of the tree must be precisely the same as thickness of the wood.
 
-Depending on the wood I get a hold of, I must change the width of the incision without resizing the trees. Conversely, I may want to change shape of the trees while keeping the incision size fixed.
-
-Typical SVG authoring tools like Illustrator or Inkscape are not capable of tweaking various design parameters. Resizing uniformly affects all aspects of the design. **LaserVG** is a design library which helps hobbyist to procedurally generate shapes and export them as SVG files.
+Depending on the piece of wood I get a hold of, I must change the width of the incision without resizing the trees. Resizing using typical SVG authoring tools, like Illustrator or Inkscape, uniformly affects all shapes, including these which I’d prefer to keep unchanged. **LaserVG** is a design library which helps hobbyist to procedurally generate shapes and export them as SVG files.
 
 ## To get started
 
-* Add reference to the `LaserVG.Library` to create the SVG. (NuGet package will be available soon)
-* Create instance of `Deo.LaserVg.Sketch`
-* Invoke methods to move the cursor and place SVG elements
-* Ultimately, invoke `Save` method to produce the SVG file.
+1. Add reference to the `LaserVG.Library` to create the SVG. (NuGet package will be available soon)
+2. Create instance of `Deo.LaserVg.Sketch`
+3. Invoke methods to move the cursor and draw SVG elements
+4. Ultimately, call `Save` method to produce the SVG file.
 
 See the `LaserVG.Sample` for examples how to interact with the library.
+
+## Todo
+
+* [x] Target netstandard2.0
+* [ ] Produce a NuGet package
+* [ ] Make it extensible from the consumer end
+* [ ] Generate docs
 
 ## Example
 
 Inspired by George Nees' 1968 "Schotter",
-this example shows groups with transforms and building squares out of lines.
+this example applies transformation to groups which hold squares made of lines.
 
 ![image](https://user-images.githubusercontent.com/1673956/49634886-da7e3800-f9b2-11e8-8d6d-2b32861d777c.png)
 
